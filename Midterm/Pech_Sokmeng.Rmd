@@ -1,0 +1,136 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+
+# 2 create a table using datafram
+
+fn <- c("sokmeng","nana","kaka","solo","dk","we","they","are","tata","lala")
+ln <- c("pech","leakeana","sasa","oun","dada","iu","jaja","leakna","tala","okl")
+age <- c(21,22,21,45,67,22,23,34,23,21)
+oc <- c("study","hoursewife","IT","IT","software engineering","study","software","study","hoursewife","IT")
+pl <- c("pp","bt","kps","kp","home","local area","kps","kp","home","pp")
+rn <- sample(1:10, 10, replace=TRUE)
+table = data.frame(fName = fn,lName = ln, Age = age, Occup = oc, Place = pl, Random_number = rn)
+table
+
+# 
+ata[,ncol(table)]
+# h.	Find the sum, mean and length of the extracted column
+
+
+
+# 1	Write a R code to Generate 6X6 matrix (A) using the random numbers between 1 to 100 & generate another 6x6 matrix (B) using random numbers between 500 to 600.
+
+x = sample(1:100, 36, replace=TRUE)
+A = matrix(x, 6, 6, byrow = TRUE)
+A
+ 
+
+y = sample(500:600, 36, replace=TRUE)
+B = matrix(y, 6, 6, byrow = TRUE)
+B
+
+# a  Find the range of A and B
+m1 <- range(A)
+m1
+
+m2 <- range(B)
+m2
+
+# b Max value of Matrix A and B
+max(A)
+max(B)
+
+# c Find the diagonal values of matrices A&B
+
+diag(A)
+diag(B)
+
+# d.	Multiply matrices A and B
+
+A%*%B
+
+# e.Replace the 4th row of Matrix A with diagonal values of matrix B
+
+# g.	Divide the matrix A with matrix B
+
+A/B
+
+
+
+#3. Create a .txt file (Minimum : 150 words) with the latest news (In English) in cambodia from the official news agency’s website(Note: Include the reference link) and do the following
+# a read file .txt file
+data <- readtext("sokmeng.txt")
+data
+
+# b.	Perform the Tokenization & count the words
+
+# n get from count(info)
+library(tidytext) # for tokenization
+library(ggplot2) # for graph visualization
+library(dplyr)
+unstructure_data <- "Oh, the joys of being a parent. There are the highs that include kiddie snuggles, belly laughs, and memories you know you’ll cherish forever. Then there are the lows, the moments when you think, “I have absolutely no idea what I’m doing.” Sometimes those tiny humans are your best friends, sometimes they’re little, mysterious strangers and you have no idea what’s going on inside their heads. No matter where you are on your parenting journey right now, feel comforted knowing that some of history’s greatest thinkers were exactly in your shoes once.Our roundup of kids' quotes perfectly illustrate the bliss of wonderful moments — and the agony of the not-so-wonderful ones. In short, they capture the essence of what it means to be a kid. After you read them, you might have a different perspective about the ways kids are being raised today, or you just might feel the catharsis of knowing there are other people like you out there who think that kids can be “dimpled lunatics,” to borrow the words of one of our country’s greatest writers. Then, if you’re looking for even more inspiration, you can see what the world’s greatest minds have said about moms, dads, or even best friends."
+dataset <- data.frame(S.No=1, Text=unstructure_data)
+dataset
+dataset %>% 
+  unnest_tokens(Info, Text) %>%
+  count(Info, sort=TRUE)
+
+# c.	Identify the most repeated word and replace that word with “KIT”
+replace_gsub <- gsub("the", "KIT", data)
+replace_gsub
+
+# d	Perform the Sentiment analysis
+library(sentimentr)
+
+age<-c(23,24,25)
+h<-c(158,160,171)
+data1<-data.frame(name=unstructure_data, age=age, height=h)
+data1
+result<- sentiment(data1$name) # To know number of sentences and words(Sentiment at the sentence level)
+result
+
+# e.	Plot the graph between “words count” and “words” using geom_col()
+dataset <- data.frame(S.No=1, Text=unstructure_data)
+dataset %>% 
+  unnest_tokens(Info, Text) %>%
+  count(Info, sort=TRUE) %>% 
+  ggplot(aes(n, Info)) + geom_col() + 
+    xlab("Number of words") +
+    ylab("List of words") +
+    ggtitle("Text Mining using R") +
+   theme(axis.title.x=element_text(size=10, color="blue", face="bold", margin=margin(t=20,r=20,b=0,l=0)),
+          axis.title.y=element_text(size=10, color="red", face="bold", margin=margin(t=0,r=20,b=0,l=20)),
+         plot.title=element_text(size=25, color="yellow", face="bold", hjust = 0.5, margin=margin(t=25,r=0,b=0,l=0)))
+  
+	
+	   
+# 4. Find the assigned Dataset from the list below and perform the following 
+
+# a.	Import and Clean the dataset.
+ data <- read_csv("fandango_scrape.csv")
+ data
+ 
+# b.	Find the x and y variables(axis) from the assigned dataset and give the reason for selecting the x and y axis. 
+# c.	Plot the graph using geom_col() and perform the linear model in statistics.
+# d.	Perform the facet with the available columns(Choose the any two variables from the columns)
+# e.	Use the theme layer to do the following (Note: Based on dataset, name the x and y axis & graph)
+
+ 
+ # choose x as a rating and y as a votes because I want to know how many votes for this number of rating 
+
+ 
+ #graph aes, geom
+ggplot(data, aes(x=RATING, y=VOTES)) + geom_col() + geom_smooth(method="lm") +
+    facet_grid(STARS ~ VOTES) +
+    xlab("Rating") +
+    ylab("Votes") +
+    ggtitle("Collection the data") +
+    theme(axis.title.x=element_text(size=10, color="green", face="bold", margin=margin(t=20,r=20,b=0,l=0)),
+          axis.title.y=element_text(size=10, color="yellow", face="bold", margin=margin(t=0,r=20,b=0,l=20)),
+          plot.title=element_text(size=25, color="blue", face="bold", hjust = 0.5, margin=margin(t=25,r=0,b=0,l=0)))
+      
